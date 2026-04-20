@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../internals.h"
+#include <rtensor/r_types.h>
 
 typedef struct r_neuron_t
 {
