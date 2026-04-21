@@ -46,7 +46,7 @@ RMatrix *r_mat_mul(const RNONNULL RMatrix *mat1, const RNONNULL RMatrix *mat2)
     return result;
 }
 
-RMatrix *transpose(const RNONNULL RMatrix *matrix)
+RMatrix *r_mat_transpose(const RNONNULL RMatrix *matrix)
 {
     RMatrix *transposed_matrix = r_create_matrix(matrix->cols, matrix->rows);
     for (int i = 0; i < matrix->rows; i++)
