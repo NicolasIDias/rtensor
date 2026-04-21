@@ -46,6 +46,19 @@ RMatrix *r_mat_mul(const RNONNULL RMatrix *mat1, const RNONNULL RMatrix *mat2)
     return result;
 }
 
+RMatrix *transpose(const RNONNULL RMatrix *matrix)
+{
+    RMatrix *transposed_matrix = r_create_matrix(matrix->cols, matrix->rows);
+    for (int i = 0; i < matrix->rows; i++)
+    {
+        for (int j = 0; j < matrix->cols; j++)
+        {
+            transposed_matrix->data[RMatrixIDX(i, j, transposed_matrix->cols)] = matrix->data[RMatrixIDX(i, j, matrix->cols)];
+        }
+    }
+    return transposed_matrix;
+}
+
 void r_print_matrix(RNONNULL RMatrix *m, const RNONNULL char *name)
 {
     printf("%s (%dx%d):\n", name, m->rows, m->cols);

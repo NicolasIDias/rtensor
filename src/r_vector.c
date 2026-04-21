@@ -42,13 +42,38 @@ RVector *r_mat_vec_mul(const RNONNULL RMatrix *matrix, const RNONNULL RVector *v
     return result;
 }
 
-void r_print_vector(RNONNULL RVector *v, const RNONNULL char *name)
+float r_vec_dot(const RNONNULL RVector *vector1, const RNONNULL RVector *vector2)
+{
+    if (vector1->size != vector2->size)
+    {
+        printf("[ERROR]: The vectors should have the same size\n");
+        exit(1);
+    }
+
+    float result = 0.0f;
+    for (int i = 0; i < vector1->size; i++)
+    {
+        result += vector1->data[i] * vector2->data[i];
+    }
+
+    return result;
+}
+
+void r_add_bias(const RNONNULL RVector *vector, float bias)
+{
+    for (int i = 0; i < vector->size; i++)
+    {
+        vector->data[i] += bias;
+    }
+}
+
+void r_print_vector(RNONNULL RVector *vector, const RNONNULL char *name)
 {
     printf("%s = [", name);
-    for (int i = 0; i < v->size; i++)
+    for (int i = 0; i < vector->size; i++)
     {
-        printf("%.2f", v->data[i]);
-        if (i < v->size - 1)
+        printf("%.2f", vector->data[i]);
+        if (i < vector->size - 1)
             printf(", ");
     }
     printf("]\n");
