@@ -1,0 +1,16 @@
+#pragma once
+
+#include <rc/r_types.h>
+
+typedef struct r_matrix_t
+{
+    float *data;
+    size_t cols;
+    size_t rows;
+} RMatrix;
+
+// MATRIX OPERATIONS
+RMatrix *r_create_matrix(size_t cols, size_t rows);
+void r_free_matrix(RNONNULL RMatrix *matrix);
+RMatrix *r_mat_mul(const RNONNULL RMatrix *mat1, const RNONNULL RMatrix *mat2);
+void r_print_matrix(RNONNULL RMatrix *m, const RNONNULL char *name);

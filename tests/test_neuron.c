@@ -1,5 +1,5 @@
-#include <rtensor/r_types.h>
-#include <rtensor/r_layer_dense.h>
+#include <rc/r_types.h>
+#include <rc/r_layer_dense.h>
 
 int main(void)
 {
