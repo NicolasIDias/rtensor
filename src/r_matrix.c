@@ -1,13 +1,13 @@
 #include <rc/r_types.h>
 #include <rc/r_matrix.h>
 
-RMatrix *r_create_matrix(size_t cols, size_t rows)
+RMatrix *r_create_matrix(size_t rows, size_t cols)
 {
     RMatrix *matrix = malloc(sizeof(RMatrix));
 
-    matrix->cols = cols;
     matrix->rows = rows;
-    matrix->data = malloc(sizeof(float) * matrix->cols * matrix->rows);
+    matrix->cols = cols;
+    matrix->data = malloc(sizeof(float) * matrix->rows * matrix->cols);
 
     return matrix;
 }
@@ -15,31 +15,22 @@ RMatrix *r_create_matrix(size_t cols, size_t rows)
 void r_free_matrix(RNONNULL RMatrix *matrix)
 {
     free(matrix->data);
-    matrix->cols = 0;
     matrix->rows = 0;
+    matrix->cols = 0;
     free(matrix);
 }
 
 RMatrix *r_mat_mul(const RNONNULL RMatrix *mat1, const RNONNULL RMatrix *mat2)
 {
-    if (mat1->cols != mat2->cols || mat1->rows != mat2->rows)
-    {
-        printf("[ERROR]: Matrices size has to be the same to perform this operation\n");
-        return NULL;
-    }
-
-    RMatrix *result = malloc(sizeof(RMatrix));
-    result->cols = mat1->cols;
-    result->rows = mat2->rows;
-    result->data = malloc(sizeof(float) * result->cols * result->rows);
+    RMatrix *result = r_create_matrix(mat1->rows, mat2->cols);
 
     for (int i = 0; i < mat1->rows; i++)
-        for (int j = 0; j < mat2->cols; j++)
+        for (size_t j = 0; j < mat2->cols; j++)
         {
             float sum = 0.0f;
-            for (int k = 0; k < mat1->rows; k++)
+            for (size_t k = 0; k < mat2->rows; k++)
             {
-                sum += mat1->data[RMatrixIDX(i, k, mat1->cols)] * mat2->data[RMatrixIDX(i, k, mat2->cols)];
+                sum += mat1->data[RMatrixIDX(i, k, mat1->cols)] * mat2->data[RMatrixIDX(k, j, mat2->cols)];
             }
             result->data[RMatrixIDX(i, j, result->cols)] = sum;
         }
@@ -49,24 +40,26 @@ RMatrix *r_mat_mul(const RNONNULL RMatrix *mat1, const RNONNULL RMatrix *mat2)
 RMatrix *r_mat_transpose(const RNONNULL RMatrix *matrix)
 {
     RMatrix *transposed_matrix = r_create_matrix(matrix->cols, matrix->rows);
-    for (int i = 0; i < matrix->rows; i++)
+    for (size_t i = 0; i < matrix->rows; i++)
     {
-        for (int j = 0; j < matrix->cols; j++)
+        for (size_t j = 0; j < matrix->cols; j++)
         {
-            transposed_matrix->data[RMatrixIDX(i, j, transposed_matrix->cols)] = matrix->data[RMatrixIDX(i, j, matrix->cols)];
+            transposed_matrix->data[RMatrixIDX(j, i, transposed_matrix->cols)] = matrix->data[RMatrixIDX(i, j, matrix->cols)];
         }
     }
+    r_print_matrix(matrix, "MATRIZ NORMAAAL");
+    r_print_matrix(transposed_matrix, "MATRIZ TRANSPOSTAAA");
     return transposed_matrix;
 }
 
-void r_print_matrix(RNONNULL RMatrix *m, const RNONNULL char *name)
+void r_print_matrix(const RNONNULL RMatrix *m, const RNONNULL char *name)
 {
-    printf("%s (%dx%d):\n", name, m->rows, m->cols);
-    for (int i = 0; i < m->rows; i++)
+    printf("%s (%ldx%ld):\n", name, m->rows, m->cols);
+    for (size_t i = 0; i < m->rows; i++)
     {
-        for (int j = 0; j < m->cols; j++)
+        for (size_t j = 0; j < m->cols; j++)
         {
-            printf("%.2f ", m->data[i * m->cols + j]);
+            printf("%.2f ", m->data[RMatrixIDX(i, j, m->cols)]);
         }
         printf("\n");
     }
