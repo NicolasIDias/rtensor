@@ -1,5 +1,6 @@
 #include <rc/r_types.h>
 #include <rc/r_matrix.h>
+#include <rc/r_loss.h>
 
 float r_cross_entropy(const RNONNULL RMatrix *matrix, const RNONNULL RMatrix *src)
 {
@@ -15,5 +16,5 @@ float r_cross_entropy(const RNONNULL RMatrix *matrix, const RNONNULL RMatrix *sr
         }
     }
 
-    return -total/src->rows;
+    return -total / src->rows;
 }

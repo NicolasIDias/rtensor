@@ -24,7 +24,7 @@ RMatrix *r_mat_mul(const RNONNULL RMatrix *mat1, const RNONNULL RMatrix *mat2)
 {
     RMatrix *result = r_create_matrix(mat1->rows, mat2->cols);
 
-    for (int i = 0; i < mat1->rows; i++)
+    for (size_t i = 0; i < mat1->rows; i++)
         for (size_t j = 0; j < mat2->cols; j++)
         {
             float sum = 0.0f;

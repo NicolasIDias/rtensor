@@ -3,3 +3,4 @@
 #include <rc/r_vector.h>
 #include <rc/r_types.h>
 #include <rc/r_activation.h>
+#include <rc/r_loss.h>
