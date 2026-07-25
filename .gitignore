@@ -54,3 +54,8 @@ compile_commands.json
 *.gcno
 *.gcda
 *.gcov
+
+# Random stuff
+rm.md
+tts/
+project/
